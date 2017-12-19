@@ -54,10 +54,12 @@ accepting2 = [2]
 
 def getNext(current,edges):
     ret=[]
+    e=None
     for t in edges:
         if current==t[0]:
             ret=ret+edges[t]
-    return ret
+            e=t[1]
+    return ret,e
             
 def nfsmaccepts(current, edges, accepting, visited): 
         # write your code here 
@@ -65,11 +67,12 @@ def nfsmaccepts(current, edges, accepting, visited):
             return ""
         else:
             visited.append(current)
-            next=getNext(current,edges)
+            next,edge=getNext(current,edges)
             for e in next:
                 if e not in visited:
-                    if nfsmaccepts(e,edges,accepting,visited)!=None:
-                        return ""
+                    suffix=nfsmaccepts(e,edges,accepting,visited)
+                    if suffix!=None:
+                        return edge+suffix
             return None
 
 
